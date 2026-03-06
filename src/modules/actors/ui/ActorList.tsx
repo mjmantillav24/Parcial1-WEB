@@ -1,9 +1,24 @@
 "use client";
 
+import { deleteActor } from "../services/actorsService";
 import { useActorsStore } from "../store/useActorsStore";
+import { useRouter } from "next/navigation";
 
 export default function ActorList() {
+  const router = useRouter();
   const actors = useActorsStore((state) => state.actors);
+  const removeActor = useActorsStore((state) => state.deleteActor);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteActor(id); 
+      removeActor(id);
+    } catch (error) {
+      console.error("Error deleting actor:", error);
+    }
+  };
+
+  
 
   if (actors.length === 0) {
     return <p className="text-gray-500">No actors available.</p>;
@@ -41,8 +56,24 @@ export default function ActorList() {
               <li key={movie.id}>{movie.title}</li>
             ))}
           </ul>
+
+        <button
+        onClick={() => router.push(`/actors/${actor.id}`)}
+        className="mt-3 bg-yellow-500 text-white px-3 py-1 rounded"
+      >
+        Edit
+      </button>
+      <button
+        onClick={() => handleDelete(actor.id)}
+        className="bg-red-500 text-white px-3 py-1 rounded"
+      >
+        Delete
+      </button>
         </div>
+        
       ))}
+      
     </div>
   );
 }
+  

@@ -1,29 +1,12 @@
 import { create } from "zustand";
-
-export interface Movie {
-  id: string;
-  title: string;
-  poster: string;
-  duration: number;
-  country: string;
-  releaseDate: string;
-  popularity: number;
-}
-
-export interface Actor {
-  id: string;
-  name: string;
-  photo: string;
-  nationality: string;
-  birthDate: string;
-  biography: string;
-  movies: Movie[];
-}
+import { Actor } from "../validation/actorSchema";
 
 interface ActorsState {
   actors: Actor[];
   setActors: (actors: Actor[]) => void;
   addActor: (actor: Actor) => void;
+  updateActor: (actor: Actor) => void;
+  deleteActor: (id: string) => void;
 }
 
 export const useActorsStore = create<ActorsState>((set) => ({
@@ -32,7 +15,30 @@ export const useActorsStore = create<ActorsState>((set) => ({
   setActors: (actors) => set({ actors }),
 
   addActor: (actor) =>
+  set((state) => ({
+    actors: [
+      ...state.actors,
+      {
+        ...actor,
+        movies: actor.movies ?? [],
+      },
+    ],
+  })),
+
+  updateActor: (updatedActor) =>
+  set((state) => ({
+    actors: state.actors.map((actor) =>
+      actor.id === updatedActor.id
+        ? {
+            ...updatedActor,
+            movies: actor.movies ?? [],
+          }
+        : actor
+    ),
+  })),
+
+  deleteActor: (id: string) =>
     set((state) => ({
-      actors: [...state.actors, actor],
+      actors: state.actors.filter((a) => a.id !== id),
     })),
 }));

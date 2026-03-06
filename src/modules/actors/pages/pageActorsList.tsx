@@ -1,28 +1,29 @@
 "use client";
 
 import { useEffect } from "react";
-import { useActorsStore } from "../store/useActorsStore";
 import ActorList from "../ui/ActorList";
-
+import { getActors } from "../services/actorsService";
+import { useActorsStore } from "../store/useActorsStore";
 
 export default function ActorsPage() {
-  const setActors = useActorsStore((state) => state.setActors);
+  const { actors, setActors } = useActorsStore();
 
   useEffect(() => {
-    const fetchActors = async () => {
-      const response = await fetch("http://localhost:3000/api/v1/actors");;
-      const data = await response.json();
-      setActors(data);
+    const loadActors = async () => {
+      try {
+        const data = await getActors();
+        setActors(data);
+      } catch (error) {
+        console.error("Error loading actors", error);
+      }
     };
 
-    fetchActors();
+    loadActors();
   }, [setActors]);
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">
-        Actors List
-      </h1>
+      <h1 className="text-2xl font-bold mb-6">Actors List</h1>
 
       <ActorList />
     </div>

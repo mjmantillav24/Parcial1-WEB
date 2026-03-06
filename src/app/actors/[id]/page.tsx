@@ -4,7 +4,7 @@ import { updateActor } from "@/src/modules/actors/services/actorsService";
 import { useActorsStore } from "@/src/modules/actors/store/useActorsStore";
 import UpdateActorForm from "@/src/modules/actors/ui/UpdateActorForm";
 
-import { ActorFormData } from "@/src/modules/actors/validation/actorSchema";
+import { ActorFormData } from "@/src/shared/validation/actorSchema";
 import { useParams, useRouter } from "next/navigation";
 
 import { useState } from "react";

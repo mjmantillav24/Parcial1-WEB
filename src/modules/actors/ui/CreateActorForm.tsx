@@ -2,16 +2,23 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { actorSchema, ActorFormData } from "../validation/actorSchema";
+import { actorSchema, ActorFormData } from "../../../shared/validation/actorSchema";
+
+interface Movie {
+  id: string;
+  title: string;
+}
 
 interface CreateActorFormProps {
   onSubmit: SubmitHandler<ActorFormData>;
   isSubmitting: boolean;
+  movies: Movie[]; 
 }
 
 export default function CreateActorForm({
   onSubmit,
   isSubmitting,
+  movies,
 }: CreateActorFormProps) {
   const {
     register,
@@ -73,6 +80,20 @@ export default function CreateActorForm({
       {errors.biography && (
         <span className="text-red-500 text-sm">{errors.biography.message}</span>
       )}
+
+      <label className="font-semibold">Movies</label>
+
+      <select
+        {...register("movies")}
+        multiple
+        className="p-2 border rounded"
+      >
+        {movies.map((movie) => (
+          <option key={movie.id} value={movie.id}>
+            {movie.title}
+          </option>
+        ))}
+      </select>
 
       <button
         type="submit"

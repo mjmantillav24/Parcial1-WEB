@@ -2,7 +2,7 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { actorSchema, ActorFormData, Actor } from "../validation/actorSchema";
+import { actorSchema, ActorFormData, Actor } from "../../../shared/validation/actorSchema";
 
 
 interface UpdateActorFormProps {

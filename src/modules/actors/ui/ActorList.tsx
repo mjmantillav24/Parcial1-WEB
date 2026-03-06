@@ -50,12 +50,18 @@ export default function ActorList() {
 
           <p className="mt-2">{actor.biography}</p>
 
-          <p className="font-semibold mt-2">Movies:</p>
-          <ul className="list-disc list-inside">
-            {actor.movies.map((movie) => (
-              <li key={movie.id}>{movie.title}</li>
-            ))}
-          </ul>
+          <div>
+  <strong>Movies:</strong>
+ <ul>
+  {actor.movies?.map((movie) => {
+    if (typeof movie === "string") {
+      return <li key={movie}>{movie}</li>;
+    }
+
+    return <li key={movie.id}>{movie.title}</li>;
+  })}
+</ul>
+</div>
 
         <button
         onClick={() => router.push(`/actors/${actor.id}`)}

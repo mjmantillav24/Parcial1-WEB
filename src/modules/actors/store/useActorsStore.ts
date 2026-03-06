@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Actor } from "../validation/actorSchema";
+import { Actor } from "../../../shared/validation/actorSchema";
 
 interface ActorsState {
   actors: Actor[];

@@ -14,10 +14,31 @@ export default function Home() {
         </Link>
 
         <Link
+          href="/movies/crear"
+          className="bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+        >
+          Crear Movie
+        </Link>
+
+        <Link
+          href="/prizes"
+          className="bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+        >
+          Crear Prize
+        </Link>
+
+        <Link
           href="/actors"
           className="bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
         >
           View Actors
+        </Link>
+
+        <Link
+          href="/movies"
+          className="bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
+        >
+          View Movies
         </Link>
       </div>
     </div>

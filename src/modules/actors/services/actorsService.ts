@@ -1,4 +1,4 @@
-import { Actor, ActorFormData } from "../validation/actorSchema";
+import { Actor, ActorFormData } from "../../../shared/validation/actorSchema";
 
 const API_URL = "http://localhost:3000/api/v1/actors";
 
@@ -55,4 +55,22 @@ export const deleteActor = async (id: string): Promise<void> => {
   if (!res.ok) {
     throw new Error("Failed to delete actor");
   }
+};
+
+export const assignMovieToActor = async (
+  actorId: string,
+  movieId: string
+) => {
+  const res = await fetch(
+    `http://localhost:3000/api/v1/actors/${actorId}/movies/${movieId}`,
+    {
+      method: "POST",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to assign movie to actor");
+  }
+
+  return res.json();
 };

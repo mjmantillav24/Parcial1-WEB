@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CreateActorForm from "../ui/CreateActorForm";
 import { createActor } from "../services/actorsService";
-import { ActorFormData } from "../validation/actorSchema";
+import { ActorFormData, Movie } from "../../../shared/validation/actorSchema";
 import { useActorsStore } from "../store/useActorsStore";
+import { getMovies } from "../../movies/services/moviesService";
+
 
 export default function CreateActorPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,17 +16,26 @@ export default function CreateActorPage() {
   const router = useRouter();
   const addActor = useActorsStore((state) => state.addActor);
 
+  const [movies, setMovies] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const data = await getMovies();
+      setMovies(data);
+    };
+
+    fetchMovies();
+  }, []);
+
   const handleCreateActor = async (data: ActorFormData) => {
   setIsSubmitting(true);
   setError(null);
+  
 
   try {
-    const actorWithMovies = {
-      ...data,
-      movies: [], 
-    };
-
-    const newActor = await createActor(actorWithMovies);
+    
+    
+    const newActor = await createActor(data);
 
     addActor(newActor);
 
@@ -45,6 +56,7 @@ export default function CreateActorPage() {
       <CreateActorForm
         onSubmit={handleCreateActor}
         isSubmitting={isSubmitting}
+        movies={movies}
       />
 
       {error && <p className="text-red-500 mt-4">{error}</p>}
